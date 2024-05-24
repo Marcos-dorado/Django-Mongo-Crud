@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Peliculas</title>
+    <script src="../static/Js/app.js"></script>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+</head>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Tienda de Peliculas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/vistaAgregarPelicula/">Agregar Peliculas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/vistaAgregargenero/">Agregar Generos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Listado de Peliculas</h2>
+    <div class="table-responsive">
+      <table id="tblProductos" class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Protagonista</th>
+            <th scope="col">Duracion</th>
+            <th scope="col">Sinopsis</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Genero</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in movies %}
+            <tr>
+              <td>{{ p.pel_codigo }}</td>
+              <td>{{ p.pel_titulo }}</td>
+              <td>{{ p.pel_protagonista }}</td>
+              <td>{{ p.pel_duracion }}</td>
+              <td>{{ p.pel_sinopsis }}</td>
+              <td><img src="/media/{{ p.pel_foto }}" alt="" width="100" height="100"></td>
+              <td>{{ p.pel_genero.gen_nombre }}</td>
+              <td>
+                <div class="d-flex justify-content-center align-items-center">
+                  <a href="/consultarPelicula/{{ p.pk }}" class="btn btn-primary me-2"><ion-icon name="create-outline"></ion-icon> Actualizar</a>
+                  <button onclick="eliminarPelicula('{{ p.pk }}')" class="btn btn-danger"><ion-icon name="trash-outline"></ion-icon> Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tblProductos').DataTable({
+        dom: 'Blfrtip',
+        buttons: [
+          'excel', 'pdf', 'print'
+        ]
+      });
+    });
+  </script>
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+  ></script>
+</body>
+</html>
